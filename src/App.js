@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import TrelloList from "./components/TrelloList"
+import { connect } from "react-redux"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  render() {
+    const { lists } = this.props;
+    return (
+      <div className="App">
+        <h2>moneytree</h2>
+        <div style={styles.listsContainer}>
+          { lists.map(lists => (
+          <TrelloList title={lists.title} cards={lists.cards} />
+          ))}
+        </div>
+      </div>
+    )
+  }
 }
 
-export default App;
+const styles = {
+  listsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    marginRight: 8
+  }
+}
+
+const mapStateToProps = state => ({
+  lists: state.lists
+})
+
+export default connect (mapStateToProps) (App);
